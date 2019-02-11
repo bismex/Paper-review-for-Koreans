@@ -3,11 +3,11 @@
 ---
 
 ### Disentangled representation learning GAN for pose-invariant face recognition
-- Date: 2019/02/09
+- Review date: 2019/02/11
 - Conference: CVPR2017
 - Area: Face recognition
 - Objective: 얼굴인식 분야에서 정면-정면 인식 성능에 비해 정면-옆면 성능이 떨어짐. 즉, 포즈에 강인한 얼굴인식(PIFR)이 필요
-- Related work: 두 갈래로 나뉨 
+- Related work(PIFR): 두 갈래로 나뉨 
   - 정면의 얼굴로 변환하는 것 (정면-정면 인식 성능이 좋기 때문에)
   - 비 정면 얼굴 영상으로부터 특징적인/포즈에 강인한 특징 추출
 - Contribution: 4가지
@@ -18,11 +18,10 @@
 - Method(briefly): 
   - Generator
     - 인코더-디코더 구조
-    - 인코더는 임의의 포즈의 얼굴 영상을 부호화
-    - 디코더는 부호화된 코드, 포즈정보, 노이즈를 타겟 포즈로 합성 (포즈정보와 노이즈[for appearance variation]는 피드)
-    - 임의의 포즈를 갖은 입력 얼굴 영상과 변환된 얼굴이 D에 의해서 동일한 신원으로 판단되도록 합성하는 것 (D를 속이는 것)
+    - 인코더는 임의의 포즈의 얼굴 영상을 부호화하며, 인식에 방해가 되는 변화들(pose)과 얽힌 것을 푼다 (이 과정에서 discriminative 표현이 학습됨)
+    - 디코더는 같은 대상에 대해서 인코더에 의해 부호화된 코드(pose-invariant), 포즈정보(side information), 노이즈(appearance variation)를 이용해서 얼굴에 다양한 표현을 합성한다. 이 때, D가 입력 영상과 동일한 신원으로 판단하도록(fake임을 인지하지 못하도록) 합성한다.
   - Discriminator
-    - 실제 vs 합성 이미지 구분
-    - 임의의 포즈에 대한 얼굴의 신원 예측
+    - 실제(N identities) vs 합성 이미지(fake, 1 class) 구분 (N+1 classification)
+    - 임의의 포즈에 대한 얼굴의 신원 예측 
   - 일련의 과정들에 의해서 G는 얼굴을 좀 더 동일한 신원같게 만들고 학습된 표현은 보다 포괄적이고 생산적이다
  
