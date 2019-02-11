@@ -18,10 +18,12 @@
 - Method(briefly): 
   - Generator
     - 인코더-디코더 구조
-    - 인코더는 임의의 포즈의 얼굴 영상을 부호화하며, 인식에 방해가 되는 변화들(pose)과 얽힌 것을 푼다 (이 과정에서 discriminative 표현이 학습됨)
-    - 디코더는 같은 대상에 대해서 인코더에 의해 부호화된 코드(pose-invariant), 포즈정보(side information), 노이즈(appearance variation)를 이용해서 얼굴에 다양한 표현을 합성한다. 이 때, D가 입력 영상과 동일한 신원으로 판단하도록(fake임을 인지하지 못하도록) 합성한다.
+    - 인코더는 임의의 포즈의 얼굴 영상을 부호화(320-dim)하며, 인식에 방해가 되는 변화들(pose)과 얽힌 것을 푼다. (discriminative representation)
+    - 디코더는 인코더에 의해 부호화된 코드(pose-invariant), 포즈정보(side information, one-hot vector), 노이즈(pose & identity 제외한 appearance variation)를 이용해서 얼굴에 다양한 표현을 합성한다. 이 때, D가 입력 영상과 동일한 신원으로 판단하도록(fake임을 인지하지 못하도록) 합성한다. (generative representation)
+    - Loss: 생성된 영상이 D를 속일 확률 최대화 (true identity & pose)
+    
   - Discriminator
-    - 실제(N identities) vs 합성 이미지(fake, 1 class) 구분 (N+1 classification)
-    - 임의의 포즈에 대한 얼굴의 신원 예측 
-  - 일련의 과정들에 의해서 G는 얼굴을 좀 더 동일한 신원같게 만들고 학습된 표현은 보다 포괄적이고 생산적이다
+    - 임의의 포즈에 대한 얼굴의 신원 예측 (N^d+1 identification, 1은 fake)
+    - 포즈를 구분 (N^p)
+    - Loss: 입력된 영상이 true identity & pose를 갖을 확률 최대화 / 생성된 영상이 fake로 분류될 확률 최대화
  
