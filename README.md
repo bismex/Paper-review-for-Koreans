@@ -29,5 +29,5 @@
     - Loss: 입력된 영상이 true identity & pose[실제 label]를 갖을 확률 최대화 / 생성된 영상이 fake로 분류될 확률 최대화
     - 아키텍처: 영상 -> conv unit(conv+BN+ELU) -> avgpool -> feature (320 dim) -> fc (N^d+N^p+1, for CE)
   - Learning strategy
-    - G 20번 backprop(합성된 영상으로만 학습)한 뒤에 D를 backprop(원본에 대한 pose, idenity 
+    - G 20번 backprop(합성된 영상으로만 학습)한 뒤에 D를 backprop(원본에 대한 pose, idenity 학습 및 G 견제)
  
