@@ -23,10 +23,11 @@
     - 디코더는 인코더에 의해 부호화된 코드(pose-invariant), 포즈정보(p, side information, one-hot vector, random index), 노이즈(z, pose & identity 제외한 appearance variation)를 이용해서 얼굴에 다양한 표현을 합성한다. 이 때, D가 입력 영상과 동일한 신원으로 판단하도록(fake임을 인지하지 못하도록) 합성한다. (generative representation)
     - 디코더 아키텍처: feature (320+N^p+N^z dim) -> Fconv unit(fractionally-strided conv)
     - Loss: 생성된 영상이 D를 속일 확률 최대화 (true identity & pose)
-    
   - Discriminator
     - 임의의 포즈에 대한 얼굴의 신원 예측 (N^d+1 identification, 1은 fake)
     - 포즈를 구분 (N^p)
     - Loss: 입력된 영상이 true identity & pose[실제 label]를 갖을 확률 최대화 / 생성된 영상이 fake로 분류될 확률 최대화
     - 아키텍처: 영상 -> conv unit(conv+BN+ELU) -> avgpool -> feature (320 dim) -> fc (N^d+N^p+1, for CE)
+  - Learning strategy
+    - G 20번 backprop(합성된 영상으로만 학습)한 뒤에 D를 backprop(원본에 대한 pose, idenity 
  
